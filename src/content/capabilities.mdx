@@ -1,0 +1,29 @@
+# What apps can do
+
+Your app runs in a sandboxed iframe with an opaque origin. Everything it can do
+beyond drawing its own UI goes through the platform — which means the platform
+decides, per app, what it may reach. This is the **capability model**.
+
+## The shape of it
+
+- **All platform interaction is through the SDK.** There is no other channel:
+  no shared storage with other apps, no reaching the parent window.
+- **You never handle credentials.** You will never see the user's GitHub token
+  or any secret — sign-in and privileged actions are driven by the host.
+- **The filesystem you see is the filesystem you got.** The spaces and folders
+  the host mounts for you are your whole world; a mount may be read-only, and
+  outside paths do not exist.
+- **More access is asked for, not taken.** Need another space? You request it,
+  and the *user* picks in host UI. Expect a polite refusal and handle it.
+- **Errors are typed.** Platform calls reply with a code — `forbidden`,
+  `cancelled`, `auth-required`, and friends. `forbidden` means your app lacks
+  that capability; it is policy, not a bug to retry around.
+
+## Why this is good for you
+
+Because the platform — not your app — holds the authority, a user can run an
+app they have never seen with a reasonable guarantee that it cannot quietly
+read their data or act as them. And because every surface is capability-scoped,
+the same guarantees make it safe to **fork and replace** parts of the platform
+itself. The rules that protect users are the rules that make taking things
+apart safe.

@@ -1,0 +1,29 @@
+# Getting started
+
+immediately.run loads a public GitHub repo, transpiles it in your browser, and
+runs it in a sandbox — no install, no build step, no server. Every app is just
+a repo, so every app is something you can open, run, and take apart.
+
+## Open an app
+
+Any immediately.run app has a shareable URL. The **present** route runs it
+full-screen:
+
+```
+/present/github/<owner>/<repo>/<ref>/files/src/App.tsx
+```
+
+Swap `present` for `edit` and you drop into **tinker mode** — the file browser,
+the editor, and a live preview, side by side.
+
+## Pop the hood
+
+The whole point is that you can change what you run. In tinker mode, edit a
+file and the preview updates live. When you have something you like, you can
+contribute it back as a pull request, or keep it as your own fork.
+
+## What runs
+
+A TypeScript + React app whose entry is `src/App.tsx`. That is the one file
+immediately.run renders. The next page covers the handful of rules that keep an
+app working on the platform.

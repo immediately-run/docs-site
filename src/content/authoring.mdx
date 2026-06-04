@@ -1,0 +1,35 @@
+# Authoring an app
+
+An immediately.run app is an ordinary React + TypeScript repo. A few rules keep
+it running on the platform — break one and the app tends to work in local
+`vite dev` but fail (silently) on immediately.run.
+
+## The hard rules
+
+- **`src/App.tsx` is the entry point.** immediately.run renders its default
+  export. `src/main.tsx` is for local dev only and is ignored at runtime.
+- **Import global CSS from `App.tsx`**, not from `main.tsx`. Anything the
+  rendered tree needs must be reachable from `App.tsx`.
+- **A file that exports a component exports only components.** No mixing a
+  component with data or helpers in the same file — that breaks Fast Refresh.
+  Put data in `src/data/`, hooks in `src/hooks/`.
+- **One component per file, default-exported.**
+- **No Node or build-time-only APIs** in the rendered tree — it runs in a
+  browser sandbox. `localStorage`, `document`, `window`, and `fetch` are
+  available.
+- **MDX is only for long-form prose** — like this page. Structured or repeated
+  data stays as typed arrays in `src/data/`.
+
+## Design
+
+Pull tokens from the design system (`src/index.css`): the cool-dark canvas, the
+magenta↔violet gradient, Gabarito / Public Sans / Space Mono, hairline borders,
+the hard-offset hover shadow. Use [Lucide](https://lucide.dev) for icons at
+16–24px in `currentColor`. No emoji.
+
+## Loading fast
+
+Ship the `cache.yml` workflow so a pre-cached zip of your repo is published to
+its GitHub Pages — immediately.run loads it fast and offline. Set
+`"immediately.run": { "requireLatest": "stale_ok" }` in `package.json` unless
+you need to-the-commit freshness.
